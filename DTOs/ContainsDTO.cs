@@ -2,7 +2,7 @@ using System;
 
 namespace DTOs;
 
-public class Cointains
+public class ContainsDTO
 {
     public long Id { get; set; }
     public long AlbumId { get; set; }

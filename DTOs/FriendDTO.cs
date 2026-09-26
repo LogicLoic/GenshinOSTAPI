@@ -2,7 +2,7 @@ using System;
 
 namespace DTOs;
 
-public class Friend
+public class FriendDTO
 {
     public long Id { get; set; }
     public long UserId { get; set; }
