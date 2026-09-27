@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using DTOs;
 using Shared;
@@ -23,6 +22,13 @@ namespace GenshinOSTAPI.Controllers
         {
             var result = await TrackService.GetTrackFromIdAsync(id);
             return result != null ? new List<TrackDTO> { result } : new List<TrackDTO>();
+        }
+
+        [HttpGet("album/{albumId}")]
+        public async Task<IEnumerable<TrackDTO>> GetAllTracksFromAlbumAsync([FromRoute] long albumId)
+        {
+            var result = await TrackService.GetAllTracksFromAlbumAsync(albumId);
+            return result;
         }
     }
 }

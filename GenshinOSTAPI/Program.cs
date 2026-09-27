@@ -11,29 +11,10 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 builder.Services.AddSingleton<ITrackService<TrackDTO>, StubTrackDTO>();
+builder.Services.AddSingleton<IAlbumService<AlbumDTO>, StubAlbumDTO>();
+builder.Services.AddSingleton<IContainsService<ContainsDTO>, StubContainsDTO>();
 
-builder.Services.AddOpenApiDocument(options => {
-     options.PostProcess = document =>
-     {
-         document.Info = new NSwag.OpenApiInfo
-         {
-             Version = "v1",
-             Title = "My API Title",
-             Description = "My API Description",
-             TermsOfService = "https://terms.of.service.fr/",
-             Contact = new NSwag.OpenApiContact
-             {
-                 Name = "Code Lord",
-                 Url = "https://code.lord.fr"
-             },
-             License = new NSwag.OpenApiLicense
-             {
-                 Name = "Code Lord",
-                 Url = "https://license.fr"
-             }
-         };
-     };
-});
+builder.Services.AddOpenApiDocument();
 
 var app = builder.Build();
 

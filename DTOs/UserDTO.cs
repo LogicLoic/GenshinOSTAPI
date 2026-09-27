@@ -1,5 +1,3 @@
-using System;
-
 namespace DTOs;
 
 public class UserDTO
