@@ -23,5 +23,19 @@ namespace GenshinOSTAPI.Controllers
             var result = await AlbumService.GetAlbumFromIdAsync(id);
             return result != null ? new List<AlbumDTO> { result } : new List<AlbumDTO>();
         }
+
+        [HttpGet("name/{name}")]
+        public async Task<IEnumerable<AlbumDTO>> GetAlbumFromNameAsync([FromRoute] string name)
+        {
+            var result = await AlbumService.GetAlbumFromNameAsync(name);
+            return result != null ? new List<AlbumDTO> { result } : new List<AlbumDTO>();
+        }
+
+        [HttpGet("creator/{creator}")]
+        public async Task<IEnumerable<AlbumDTO>> GetAlbumsFromCreatorAsync([FromRoute] string creator)
+        {
+            var result = await AlbumService.GetAlbumsFromCreatorAsync(creator);
+            return result;
+        }
     }
 }

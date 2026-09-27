@@ -2,7 +2,7 @@ using Shared;
 using DTOs;
 
 
-namespace Shared;
+namespace Stub;
 
 public class StubAlbumDTO : IAlbumService<AlbumDTO>
 {
@@ -17,6 +17,24 @@ public class StubAlbumDTO : IAlbumService<AlbumDTO>
     {
         var album = AlbumList.FirstOrDefault(a => a.Id == id);
         return Task.FromResult<AlbumDTO>(album);
+    }
+
+    public Task<AlbumDTO> GetAlbumFromNameAsync(string name)
+    {
+        var album = AlbumList.FirstOrDefault(a => a.Name == name);
+        return Task.FromResult<AlbumDTO>(album);
+    }
+
+    public Task<List<AlbumDTO>> GetAlbumsFromCreatorAsync(string creator)
+    {
+        var user = StubUserDTO.Users.FirstOrDefault(u => u.Username == creator);
+
+        if (user == null)
+            return Task.FromResult<List<AlbumDTO>>(new List<AlbumDTO>());
+
+        var albums = AlbumList.Where(a => a.CreatorId == user.Id).ToList();
+
+        return Task.FromResult<List<AlbumDTO>>(albums);
     }
 
 }
