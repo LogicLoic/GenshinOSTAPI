@@ -30,5 +30,27 @@ namespace GenshinOSTAPI.Controllers
             var result = await TrackService.GetAllTracksFromAlbumAsync(albumId);
             return result;
         }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateTrackAsync([FromBody] TrackDTO track)
+        {
+            var result = await TrackService.CreateTrackAsync(track);
+            return Ok(result);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateTrackAsync([FromRoute] long id, [FromBody] TrackDTO track)
+        {
+            track.Id = id;
+            var result = await TrackService.UpdateTrackAsync(track);
+            return Ok(result);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteTrackAsync([FromRoute] long id)
+        {
+            await TrackService.DeleteTrackAsync(id);
+            return Ok();
+        }
     }
 }

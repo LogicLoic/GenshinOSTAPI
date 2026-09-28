@@ -29,6 +29,7 @@ object Contains {
 <u>Id
 <u><i>#TrackId
 <u><i>#AlbumId
+CustomTitle
 }
 
 object Friend{

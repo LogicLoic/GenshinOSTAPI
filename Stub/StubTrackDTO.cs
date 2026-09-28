@@ -20,18 +20,45 @@ public class StubTrackDTO : ITrackService<TrackDTO>
         return Task.FromResult<TrackDTO>(track);
     }
 
-public Task<List<TrackDTO>> GetAllTracksFromAlbumAsync(long albumId)
-{
-    var tracks = StubContainsDTO.ContainsList
-        .Where(c => c.AlbumId == albumId)
-        .Join(
-            Tracks,
-            c => c.TrackId,
-            t => t.Id,
-            (c, t) => t
-        )
-        .ToList();
+    public Task<List<TrackDTO>> GetAllTracksFromAlbumAsync(long albumId)
+    {
+        var tracks = StubContainsDTO.ContainsList
+            .Where(c => c.AlbumId == albumId)
+            .Join(
+                Tracks,
+                c => c.TrackId,
+                t => t.Id,
+                (c, t) => t
+            )
+            .ToList();
 
-    return Task.FromResult(tracks);
-}
+        return Task.FromResult(tracks);
+    }
+
+    public Task<TrackDTO> CreateTrackAsync(TrackDTO track)
+    {
+        Tracks.Add(track);
+        return Task.FromResult(track);
+    }
+
+    public Task<TrackDTO> UpdateTrackAsync(TrackDTO track)
+    {
+        var existingTrack = Tracks.FirstOrDefault(t => t.Id == track.Id);
+        if (existingTrack != null)
+        {
+            Tracks.Remove(existingTrack);
+            Tracks.Add(track);
+        }
+        return Task.FromResult(track);
+    }
+
+    public Task DeleteTrackAsync(long id)
+    {
+        var track = Tracks.FirstOrDefault(t => t.Id == id);
+        if (track != null)
+        {
+            Tracks.Remove(track);
+        }
+        return Task.CompletedTask;
+    }
 }

@@ -30,11 +30,11 @@ public class StubAlbumDTO : IAlbumService<AlbumDTO>
         var user = StubUserDTO.Users.FirstOrDefault(u => u.Username == creator);
 
         if (user == null)
-            return Task.FromResult<List<AlbumDTO>>(new List<AlbumDTO>());
+            return Task.FromResult(new List<AlbumDTO>());
 
         var albums = AlbumList.Where(a => a.CreatorId == user.Id).ToList();
 
-        return Task.FromResult<List<AlbumDTO>>(albums);
+        return Task.FromResult(albums);
     }
 
 }
