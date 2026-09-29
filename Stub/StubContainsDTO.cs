@@ -14,10 +14,43 @@ public class StubContainsDTO : IContainsService<ContainsDTO>
         new ContainsDTO { Id = 4, AlbumId = 2, TrackId = 4 },
         new ContainsDTO { Id = 5, AlbumId = 3, TrackId = 5 }
     };
-    public Task<ContainsDTO> GetContainsAsync(long id, long albumId, long trackId)
+
+    public Task<List<ContainsDTO>> GetAllContainsAsync() => Task.FromResult(ContainsList.ToList());
+
+    public Task<ContainsDTO?> GetContainsFromIdAsync(long id)
     {
-        // For the stub, we can return a dummy ContainsDTO object
+        return Task.FromResult(ContainsList.FirstOrDefault(c => c.Id == id));
+    }
+
+    public Task<ContainsDTO?> GetContainsAsync(long id, long albumId, long trackId)
+    {
         var result = ContainsList.FirstOrDefault(c => c.Id == id && c.AlbumId == albumId && c.TrackId == trackId);
-        return Task.FromResult<ContainsDTO>(result);
+        return Task.FromResult(result);
+    }
+
+    public Task<ContainsDTO> CreateContainsAsync(ContainsDTO contains)
+    {
+        if (contains.Id <= 0 || ContainsList.Any(c => c.Id == contains.Id))
+            contains.Id = ContainsList.Count == 0 ? 1 : ContainsList.Max(c => c.Id) + 1;
+
+        ContainsList.Add(contains);
+        return Task.FromResult(contains);
+    }
+
+    public Task<ContainsDTO?> UpdateContainsAsync(long id, ContainsDTO contains)
+    {
+        var index = ContainsList.FindIndex(c => c.Id == id);
+        if (index < 0)
+            return Task.FromResult<ContainsDTO?>(null);
+
+        contains.Id = id;
+        ContainsList[index] = contains;
+        return Task.FromResult<ContainsDTO?>(contains);
+    }
+
+    public Task<bool> DeleteContainsAsync(long id)
+    {
+        var contains = ContainsList.FirstOrDefault(c => c.Id == id);
+        return Task.FromResult(contains != null && ContainsList.Remove(contains));
     }
 }

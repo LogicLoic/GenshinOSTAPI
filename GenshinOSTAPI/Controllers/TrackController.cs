@@ -17,11 +17,17 @@ namespace GenshinOSTAPI.Controllers
             TrackService = trackService;
         }
 
+        [HttpGet]
+        public async Task<IEnumerable<TrackDTO>> GetAllTracksAsync()
+        {
+            return await TrackService.GetAllTracksAsync();
+        }
+
         [HttpGet ("{id}")]
-        public async Task<IEnumerable<TrackDTO>> GetTrackFromIdAsync([FromRoute] long id)
+        public async Task<IActionResult> GetTrackFromIdAsync([FromRoute] long id)
         {
             var result = await TrackService.GetTrackFromIdAsync(id);
-            return result != null ? new List<TrackDTO> { result } : new List<TrackDTO>();
+            return result == null ? NotFound() : Ok(result);
         }
 
         [HttpGet("album/{albumId}")]
@@ -41,16 +47,15 @@ namespace GenshinOSTAPI.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateTrackAsync([FromRoute] long id, [FromBody] TrackDTO track)
         {
-            track.Id = id;
-            var result = await TrackService.UpdateTrackAsync(track);
-            return Ok(result);
+            var result = await TrackService.UpdateTrackAsync(id, track);
+            return result == null ? NotFound() : Ok(result);
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTrackAsync([FromRoute] long id)
         {
-            await TrackService.DeleteTrackAsync(id);
-            return Ok();
+            var deleted = await TrackService.DeleteTrackAsync(id);
+            return deleted ? NoContent() : NotFound();
         }
     }
 }

@@ -14,6 +14,7 @@ builder.Services.AddSingleton<ITrackService<TrackDTO>, StubTrackDTO>();
 builder.Services.AddSingleton<IAlbumService<AlbumDTO>, StubAlbumDTO>();
 builder.Services.AddSingleton<IContainsService<ContainsDTO>, StubContainsDTO>();
 builder.Services.AddSingleton<IUserService<UserDTO>, StubUserDTO>();
+builder.Services.AddSingleton<IFriendService<FriendDTO>, StubFriendDTO>();
 
 builder.Services.AddOpenApiDocument();
 

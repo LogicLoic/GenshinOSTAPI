@@ -13,16 +13,18 @@ public class StubAlbumDTO : IAlbumService<AlbumDTO>
         new AlbumDTO { Id = 3, Name = "Album 3", CreationDate = new DateTime(2022, 3, 3), Visibility = Visibility.Public, CreatorId = 3 }
     };
 
-    public Task<AlbumDTO> GetAlbumFromIdAsync(long id)
+    public Task<List<AlbumDTO>> GetAllAlbumsAsync() => Task.FromResult(AlbumList.ToList());
+
+    public Task<AlbumDTO?> GetAlbumFromIdAsync(long id)
     {
         var album = AlbumList.FirstOrDefault(a => a.Id == id);
-        return Task.FromResult<AlbumDTO>(album);
+        return Task.FromResult(album);
     }
 
-    public Task<AlbumDTO> GetAlbumFromNameAsync(string name)
+    public Task<AlbumDTO?> GetAlbumFromNameAsync(string name)
     {
         var album = AlbumList.FirstOrDefault(a => a.Name == name);
-        return Task.FromResult<AlbumDTO>(album);
+        return Task.FromResult(album);
     }
 
     public Task<List<AlbumDTO>> GetAlbumsFromCreatorAsync(string creator)
@@ -35,6 +37,32 @@ public class StubAlbumDTO : IAlbumService<AlbumDTO>
         var albums = AlbumList.Where(a => a.CreatorId == user.Id).ToList();
 
         return Task.FromResult(albums);
+    }
+
+    public Task<AlbumDTO> CreateAlbumAsync(AlbumDTO album)
+    {
+        if (album.Id <= 0 || AlbumList.Any(a => a.Id == album.Id))
+            album.Id = AlbumList.Count == 0 ? 1 : AlbumList.Max(a => a.Id) + 1;
+
+        AlbumList.Add(album);
+        return Task.FromResult(album);
+    }
+
+    public Task<AlbumDTO?> UpdateAlbumAsync(long id, AlbumDTO album)
+    {
+        var index = AlbumList.FindIndex(a => a.Id == id);
+        if (index < 0)
+            return Task.FromResult<AlbumDTO?>(null);
+
+        album.Id = id;
+        AlbumList[index] = album;
+        return Task.FromResult<AlbumDTO?>(album);
+    }
+
+    public Task<bool> DeleteAlbumAsync(long id)
+    {
+        var album = AlbumList.FirstOrDefault(a => a.Id == id);
+        return Task.FromResult(album != null && AlbumList.Remove(album));
     }
 
 }

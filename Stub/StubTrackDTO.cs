@@ -14,10 +14,12 @@ public class StubTrackDTO : ITrackService<TrackDTO>
         new TrackDTO { Id = 5, Title = "Track 5", Artist = "Artist 5", Duration = 190, Rating = 4.2 }
     };
 
-    public Task<TrackDTO> GetTrackFromIdAsync(long id)
+    public Task<List<TrackDTO>> GetAllTracksAsync() => Task.FromResult(Tracks.ToList());
+
+    public Task<TrackDTO?> GetTrackFromIdAsync(long id)
     {
         var track = Tracks.FirstOrDefault(t => t.Id == id);
-        return Task.FromResult<TrackDTO>(track);
+        return Task.FromResult(track);
     }
 
     public Task<List<TrackDTO>> GetAllTracksFromAlbumAsync(long albumId)
@@ -37,28 +39,27 @@ public class StubTrackDTO : ITrackService<TrackDTO>
 
     public Task<TrackDTO> CreateTrackAsync(TrackDTO track)
     {
+        if (track.Id <= 0 || Tracks.Any(t => t.Id == track.Id))
+            track.Id = Tracks.Count == 0 ? 1 : Tracks.Max(t => t.Id) + 1;
+
         Tracks.Add(track);
         return Task.FromResult(track);
     }
 
-    public Task<TrackDTO> UpdateTrackAsync(TrackDTO track)
+    public Task<TrackDTO?> UpdateTrackAsync(long id, TrackDTO track)
     {
-        var existingTrack = Tracks.FirstOrDefault(t => t.Id == track.Id);
-        if (existingTrack != null)
-        {
-            Tracks.Remove(existingTrack);
-            Tracks.Add(track);
-        }
-        return Task.FromResult(track);
+        var index = Tracks.FindIndex(t => t.Id == id);
+        if (index < 0)
+            return Task.FromResult<TrackDTO?>(null);
+
+        track.Id = id;
+        Tracks[index] = track;
+        return Task.FromResult<TrackDTO?>(track);
     }
 
-    public Task DeleteTrackAsync(long id)
+    public Task<bool> DeleteTrackAsync(long id)
     {
         var track = Tracks.FirstOrDefault(t => t.Id == id);
-        if (track != null)
-        {
-            Tracks.Remove(track);
-        }
-        return Task.CompletedTask;
+        return Task.FromResult(track != null && Tracks.Remove(track));
     }
 }
