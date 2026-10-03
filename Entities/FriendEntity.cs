@@ -1,9 +1,9 @@
-namespace DTOs;
+namespace Entities;
 
-public class FriendDTO
+public class FriendEntity
 {
     public long Id { get; set; }
     public long UserId { get; set; }
     public long FriendId { get; set; }
-    public FriendshipStrength FriendshipStrength { get; set; }
+    public FriendshipStrength Strength { get; set; }
 }

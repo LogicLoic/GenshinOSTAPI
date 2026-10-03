@@ -103,5 +103,5 @@ Admin--> UC11
 
 - Official (admin only) : Everyone can open the album
 - Public : Logged users can open the album
-- Private : Friends can open the album
+- Private : Friends can open the album (Depends on Friendship Strength)
 - Closed : Only the owner can open the album

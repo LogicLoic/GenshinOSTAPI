@@ -1,4 +1,4 @@
-namespace DTOs;
+namespace Entities;
 
 public enum Visibility
 {

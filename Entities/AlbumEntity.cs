@@ -1,6 +1,6 @@
-namespace DTOs;
+namespace Entities;
 
-public class AlbumDTO
+public class AlbumEntity
 {
     public long Id { get; set;}
     public string? Name { get; set; }
