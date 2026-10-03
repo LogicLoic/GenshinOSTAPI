@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace StubbedContext.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class Migrations : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -90,6 +90,37 @@ namespace StubbedContext.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "Albums",
+                columns: new[] { "Id", "CreationDate", "CreatorId", "Name", "Visibility" },
+                values: new object[,]
+                {
+                    { 1L, new DateTime(2020, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1L, "Album 1", 1 },
+                    { 2L, new DateTime(2021, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), 2L, "Album 2", 2 },
+                    { 3L, new DateTime(2022, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), 3L, "Album 3", 1 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Contains",
+                columns: new[] { "Id", "AlbumId", "CustomTitle", "TrackId" },
+                values: new object[,]
+                {
+                    { 1L, 1L, "Custom Title 1", 1L },
+                    { 2L, 1L, "Custom Title 2", 2L },
+                    { 3L, 2L, "Custom Title 3", 3L },
+                    { 4L, 2L, "Custom Title 4", 4L },
+                    { 5L, 3L, "Custom Title 5", 5L }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Friends",
+                columns: new[] { "Id", "FriendId", "Strength", "UserId" },
+                values: new object[,]
+                {
+                    { 1L, 3L, 0, 2L },
+                    { 2L, 2L, 0, 3L }
+                });
+
+            migrationBuilder.InsertData(
                 table: "Tracks",
                 columns: new[] { "Id", "Artist", "Duration", "Rating", "Title" },
                 values: new object[,]
@@ -99,6 +130,16 @@ namespace StubbedContext.Migrations
                     { 3L, "Artist 3", 240L, 5.0, "Track 3" },
                     { 4L, "Artist 4", 210L, 3.5, "Track 4" },
                     { 5L, "Artist 5", 190L, 4.2000000000000002, "Track 5" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "Role", "Username" },
+                values: new object[,]
+                {
+                    { 1L, 2, "Admin" },
+                    { 2L, 1, "User1" },
+                    { 3L, 1, "User2" }
                 });
         }
 

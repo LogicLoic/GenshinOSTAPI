@@ -11,8 +11,8 @@ using StubbedContext;
 namespace StubbedContext.Migrations
 {
     [DbContext(typeof(StubbedContext))]
-    [Migration("20261003184707_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20261003192233_Migrations")]
+    partial class Migrations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -41,6 +41,32 @@ namespace StubbedContext.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Albums");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            CreationDate = new DateTime(2020, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatorId = 1L,
+                            Name = "Album 1",
+                            Visibility = 1
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            CreationDate = new DateTime(2021, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatorId = 2L,
+                            Name = "Album 2",
+                            Visibility = 2
+                        },
+                        new
+                        {
+                            Id = 3L,
+                            CreationDate = new DateTime(2022, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatorId = 3L,
+                            Name = "Album 3",
+                            Visibility = 1
+                        });
                 });
 
             modelBuilder.Entity("Entities.ContainsEntity", b =>
@@ -61,6 +87,43 @@ namespace StubbedContext.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Contains");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            AlbumId = 1L,
+                            CustomTitle = "Custom Title 1",
+                            TrackId = 1L
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            AlbumId = 1L,
+                            CustomTitle = "Custom Title 2",
+                            TrackId = 2L
+                        },
+                        new
+                        {
+                            Id = 3L,
+                            AlbumId = 2L,
+                            CustomTitle = "Custom Title 3",
+                            TrackId = 3L
+                        },
+                        new
+                        {
+                            Id = 4L,
+                            AlbumId = 2L,
+                            CustomTitle = "Custom Title 4",
+                            TrackId = 4L
+                        },
+                        new
+                        {
+                            Id = 5L,
+                            AlbumId = 3L,
+                            CustomTitle = "Custom Title 5",
+                            TrackId = 5L
+                        });
                 });
 
             modelBuilder.Entity("Entities.FriendEntity", b =>
@@ -81,6 +144,22 @@ namespace StubbedContext.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Friends");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            FriendId = 3L,
+                            Strength = 0,
+                            UserId = 2L
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            FriendId = 2L,
+                            Strength = 0,
+                            UserId = 3L
+                        });
                 });
 
             modelBuilder.Entity("Entities.TrackEntity", b =>
@@ -163,6 +242,26 @@ namespace StubbedContext.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            Role = 2,
+                            Username = "Admin"
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            Role = 1,
+                            Username = "User1"
+                        },
+                        new
+                        {
+                            Id = 3L,
+                            Role = 1,
+                            Username = "User2"
+                        });
                 });
 #pragma warning restore 612, 618
         }
